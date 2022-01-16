@@ -9,19 +9,22 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>age calculator</title>
     </head>
     <body>
         
         <h1>Age Calculator</h1>
-        <<form action="/Calculators/age">
+        <form action="age" method="post">
         <table>
             <tr>
-                <td><label for="age">Enter your age:</label>></td>
-                <<td><input type="num"></td>
+                <td><label for="age">Enter your age:</label></td>
+                <td><input type="number" name="age"></td>
             </tr>
             <tr>
-                <td></td>
+                <td><button type="submit">Age next birthday</button></td>
+            </tr>
+            <tr>
+                <td><span>${nextYear}</span></td>
             </tr>
         </table>
         </form>
