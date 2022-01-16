@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author caelan
  */
-@WebServlet(name = "AgeCalculatorServlet", urlPatterns = {"/age"})
-public class AgeCalculatorServlet extends HttpServlet {
+@WebServlet(name = "arithmeticCalculatorServlet", urlPatterns = {"/arithmetic"})
+public class arithmeticCalculatorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +36,10 @@ public class AgeCalculatorServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AgeCalculatorServlet</title>");            
+            out.println("<title>Servlet arithmeticCalculatorServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AgeCalculatorServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet arithmeticCalculatorServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,9 +57,8 @@ public class AgeCalculatorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //set the line under the sumbit button.
-        request.setAttribute("nextYear", "You must give your current age.");
-        getServletContext().getRequestDispatcher("/WEB-INF/AgeCalculator.jsp").forward(request,response);
+            request.setAttribute("result", "Result: ---");
+            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticCalculator.jsp").forward(request,response);
     }
 
     /**
@@ -73,15 +72,43 @@ public class AgeCalculatorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                //parses your age and returns your next age.
-                int age = Integer.parseInt(request.getParameter("age"));
-                
-                age++;
-                String nextAge = String.format("Your age after your next birthday will be %d.",age);
-                System.out.println(nextAge);
-                request.setAttribute("nextYear",nextAge);
-                getServletContext().getRequestDispatcher("/WEB-INF/AgeCalculator.jsp").forward(request,response);
-                
+        /*Error checks empty and invalid inputs, then proccesses the calculation
+        based off the users inputs.
+        */
+        try{
+        double num1 = Double.parseDouble(request.getParameter("num1"));
+        double num2 = Double.parseDouble(request.getParameter("num2"));
+        String operator = request.getParameter("operator");
+        double result = 0;
+        String resultString = "";
+        
+        
+        switch(operator){
+            case "add": result = num1 + num2;
+                        resultString = String.format("Result: %3.2f",result);
+                        request.setAttribute("result",resultString);
+                        break;
+            case "sub": result = num1 - num2;
+                        resultString = String.format("Result: %3.2f",result);
+                        request.setAttribute("result",resultString);
+                        break;
+            case "multiply": result = num1 * num2;
+                             break;
+            case "div": if(num2 == 0){
+                request.setAttribute("result","Cannot divide by zero");
+                break;
+                   
+            }
+                        result = num1 / num2;
+                        resultString = String.format("Result: %3.2f",result);
+                        request.setAttribute("result",resultString);
+                        break;
+        }
+        }catch(NumberFormatException e){
+           request.setAttribute("result","One or more inputs is invalid.");
+        }
+        
+        getServletContext().getRequestDispatcher("/WEB-INF/arithmeticCalculator.jsp").forward(request,response);
     }
 
     /**

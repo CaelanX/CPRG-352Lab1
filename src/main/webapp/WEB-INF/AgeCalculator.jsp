@@ -17,14 +17,16 @@
         <form action="age" method="post">
         <table>
             <tr>
-                <td><label for="age">Enter your age:</label></td>
-                <td><input type="number" name="age"></td>
+                <td><label for="age">Enter your age:</label><input type="number" name="age"></td>
             </tr>
             <tr>
                 <td><button type="submit">Age next birthday</button></td>
             </tr>
             <tr>
                 <td><span>${nextYear}</span></td>
+            </tr>
+            <tr>
+                <td><a href="/Calculators/arithmetic">Arithmetic Calculator</a></td>
             </tr>
         </table>
         </form>
