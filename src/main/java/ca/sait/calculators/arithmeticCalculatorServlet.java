@@ -6,6 +6,7 @@ package ca.sait.calculators;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -76,23 +77,25 @@ public class arithmeticCalculatorServlet extends HttpServlet {
         based off the users inputs.
         */
         try{
-        double num1 = Double.parseDouble(request.getParameter("num1"));
-        double num2 = Double.parseDouble(request.getParameter("num2"));
+        int num1 = Integer.parseInt(request.getParameter("num1"));
+        int num2 = Integer.parseInt(request.getParameter("num2"));
         String operator = request.getParameter("operator");
-        double result = 0;
+        int result = 0;
         String resultString = "";
         
         
         switch(operator){
             case "add": result = num1 + num2;
-                        resultString = String.format("Result: %3.2f",result);
+                        resultString = String.format("Result: %d",result);
                         request.setAttribute("result",resultString);
                         break;
             case "sub": result = num1 - num2;
-                        resultString = String.format("Result: %3.2f",result);
+                        resultString = String.format("Result: %d",result);
                         request.setAttribute("result",resultString);
                         break;
             case "multiply": result = num1 * num2;
+                            resultString = String.format("Result: %d",result);
+                            request.setAttribute("result",resultString);
                              break;
             case "div": if(num2 == 0){
                 request.setAttribute("result","Cannot divide by zero");
@@ -100,10 +103,13 @@ public class arithmeticCalculatorServlet extends HttpServlet {
                    
             }
                         result = num1 / num2;
-                        resultString = String.format("Result: %3.2f",result);
+                        resultString = String.format("Result: %d",result);
                         request.setAttribute("result",resultString);
                         break;
         }
+        request.setAttribute("num1",num1);
+        request.setAttribute("num2",num2);
+            
         }catch(NumberFormatException e){
            request.setAttribute("result","Result: invalid");
         }
