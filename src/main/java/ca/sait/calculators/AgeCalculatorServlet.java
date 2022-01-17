@@ -74,13 +74,20 @@ public class AgeCalculatorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 //parses your age and returns your next age.
+                try{
                 int age = Integer.parseInt(request.getParameter("age"));
-                
-                age++;
-                String nextAge = String.format("Your age after your next birthday will be %d.",age);
-                System.out.println(nextAge);
-                request.setAttribute("nextYear",nextAge);
+                if(age >= 0){
+                    age++;
+                    String nextAge = String.format("You will be %d years old next year.",age);
+                    request.setAttribute("nextYear",nextAge);
+                }else{
+                    request.setAttribute("nextYear","Age cannot be negative.");
+                }
+                }catch(NumberFormatException e){
+                    request.setAttribute("nextYear","Please enter a number");    
+                }
                 getServletContext().getRequestDispatcher("/WEB-INF/AgeCalculator.jsp").forward(request,response);
+                
                 
     }
 

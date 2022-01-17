@@ -105,7 +105,7 @@ public class arithmeticCalculatorServlet extends HttpServlet {
                         break;
         }
         }catch(NumberFormatException e){
-           request.setAttribute("result","One or more inputs is invalid.");
+           request.setAttribute("result","Result: invalid");
         }
         
         getServletContext().getRequestDispatcher("/WEB-INF/arithmeticCalculator.jsp").forward(request,response);
